@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Cadastro</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const signInBtn = document.querySelector('#toggleSignIn');
+            const signUpBtn = document.querySelector('#toggleSignUp');
+
+            const signUpForm = document.querySelector('#sign-up-container');
+            const signInForm = document.querySelector('#sign-in-container');
+
+            // Função para alternar entre os formulários
+            const toggleForms = () => {
+              signUpForm.classList.toggle('hide');
+              signInForm.classList.toggle('hide');
+            };
+
+            // Mostra o formulário de login ao clicar no botão "Sign In"
+            signInBtn.addEventListener('click', toggleForms);
+
+            // Mostra o formulário de cadastro ao clicar no botão "Sign Up"
+            signUpBtn.addEventListener('click', toggleForms);
+        });
+
+        function togglePassword() {
+            var passwordField = document.getElementById("pass");
+            if (passwordField.type === "password") {
+                passwordField.type = "pass";
+                document.getElementById("showPassword").checked = true;
+            } else {
+                passwordField.type = "password";
+                document.getElementById("showPassword").checked = false;
+            }
+        }
+
+        function formatarCPF(campo){
+            var cpf = campo.value.replace(/\D/g, ''); //Remove todos os caracters não numéricos
+            if (cpf.length > 11) {
+               cpf = cpf.slice(0, 11); //Limita o tamanho do CPF para 11 dígitos
+            }
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o primeiro ponto
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o segundo ponto
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1.$2'); //Insere o terceiro ponto
+            campo.value = cpf; //Atualiza o valor do campo com a máscara aplicada
+        }
+    </script>
+    <style>
+        /* Fonts */
+        @import "https://fonts.googleapis.com/css?family=Quicksand";
+
+        body {
+            background-color: #F3F4F9;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-image: url('/static/fundo_cadastro.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        #form-container {
+            height: 100vh;
+            display: flex;
+            justify-content: flex-end; /* Alinhar para a direita */
+            margin-right: 5%; /* Adicionando margem direita */
+            align-items: center;
+        }
+
+        #form-inner-container {
+            background-color: #fff;
+            max-width: 85%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px gainsboro;
+            margin-top: 15%; /* Adicionando margem superior */
+            font-size: 16px;
+        }
+
+        #sign-up-container, #sign-in-container {
+            padding: 60px 80px;
+            width: 400px;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        form input:not(:last-of-type) {
+            display: block;
+            margin-bottom: 20px;
+            border: 1px solid #E5E9F5;
+            background-color: #F6F7FA;
+            padding: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        #form-controls {
+            margin-bottom: 20px;
+        }
+
+
+        h3 {
+            color: #1C1C1C;
+            font-size: 150%;
+            font-weight: 500;
+            font-weight: bold;
+        }
+
+        label {
+            color: #7369AB;
+        }
+
+        ::placeholder {
+            color: #1C1C1C;
+            font-size: larger;
+            letter-spacing: 1.2px;
+        }
+
+        #form-controls button {
+            border: none;
+            font-size: 120%;
+        }
+
+        #form-controls button:hover {
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            padding: 16px 75px;
+            background-color: #3CB371;
+            border-radius: 10px;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2E8B57;
+        }
+
+        button[type="button"] {
+            padding: 16px 0 16px 35px;
+            background-color: transparent;
+            color: #3CB371;
+        }
+
+        #terms {
+            width: 30px;
+            height: 30px;
+            appearance: none;
+            border: 2px solid #7369AB;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        #terms:checked:after {
+            content: '\2713';
+            color: #7369AB;
+            font-size: 24px;
+            position: absolute;
+            top: 0;
+            left: 3px;
+        }
+
+        label[for="terms"] {
+            display: inline-block;
+            width: 80%;
+            margin-left: 10px;
+        }
+
+        .termsLink {
+            color: #EF7886;
+            text-decoration: none;
+        }
+
+        .hide {
+            display: none!important;
+        }
+
+        #animation-container {
+            display: inline-block;
+            width: 5%;
+        }
+
+        /* responsive display */
+
+        @media(max-width:1438px) {
+            lottie-player {
+                width: 300px!important;
+            }
+        }
+
+        @media(max-width:1124px) {
+            #animation-container {
+                display: none;
+            }
+
+            #form-inner-container{
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        @media(max-width: 684px) {
+            #form-controls {
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            form input:not(:last-of-type) {
+                width: 85%;
+            }
+
+            #toggleSignIn, #toggleSignUp {
+                padding: 16px 75px;
+            }
+
+            #terms {
+                width: 20px;
+                height: 20px;
+            }
+
+            label[for="terms"] {
+                display: inline-block;
+                font-size: smaller;
+            }
+        }
+    </style>
+</head>
+<body>
+  <div id="form-container">
+      <div id="form-inner-container">
+        <!-- Sign up form -->
+        <div id="sign-up-container">
+          <h3>Cadastre sua conta aqui!</h3>
+          <form id="cadastroForm" action="/cadastro" method="post">
+
+              <label for="matricula">Matrícula</label>
+              <input type="text" name="matricula" id="matricula" placeholder="Matricula" required>
+
+              <label for="nome">Nome</label>
+              <input type="text" name="nome" id="nome" placeholder="Nome" required>
+
+              <label for="cpf">CPF</label>
+              <input type="text" name="cpf" id="cpf" oninput="formatarCPF(cpf)" placeholder="CPF" required>
+
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" placeholder="Email" required>
+
+              <label for="pass">Senha</label>
+              <input type="password" id="pass" name="password" placeholder="Senha" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" title="A senha deve conter no mínimo 8 caracteres, incluindo letras, números e caracteres especiais" required>
+
+              <input type="checkbox" id="showPassword" onclick="togglePassword()">
+              <label for="showPassword">Exibir Senha</label>
+
+              <div id="form-controls">
+                  <br>
+                <button type="submit" id="botaoCadastrar">Cadastrar</button>
+                <button type="button" id="toggleSignIn">Alterar Senha</button>
+                  <br><br>
+                  <strong><a href="{{ url_for('login')}}" style="color:#4682B4;">Tudo pronto? Voltar para página de Login</a></strong>
+              </div>
+
+          </form>
+        </div>
+
+        <!-- Sign in form -->
+        <div id="sign-in-container" class="hide">
+          <h3>Alterar Senha</h3>
+          <form id="envio_senha" action="/envio_senha" method="POST">
+              <label for="cpf_alt">CPF</label>
+              <input type="text" name="cpf_alt" id="cpf_alt" oninput="formatarCPF(cpf_alt)" placeholder="CPF" required>
+                <input type="password" style="display: none;" >
+                <br>
+            <div id="form-controls">
+                <br>
+              <button type="submit" id="botaoAlterar">Alterar Senha</button>
+              <button type="button" id="toggleSignUp">Cadastrar</button>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+          </form>
+        </div>
+
+        <!-- Lottie animation -->
+        <div id="animation-container">
+          <lottie-player src="https://lottie.host/559c6241-f2ff-4540-a1a2-3b578799a4c1/iCQLmec8bI.json"  background="transparent"  speed="1"  style="width: 520px; height: 520px;" loop autoplay></lottie-player>
+        </div>
+      </div>
+  </div>
+
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script type="text/JavaScript" src="./my-script.js"></script>
+
+</body>
+</html>
+

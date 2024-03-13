@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Cadastro de Nova Senha</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function formatarCPF(campo){
+            var cpf = campo.value.replace(/\D/g, ''); //Remove todos os caracters não numéricos
+            if (cpf.length > 11) {
+                cpf = cpf.slice(0, 11); //Limita o tamanho do CPF para 11 dígitos
+            }
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o primeiro ponto
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o segundo ponto
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1.$2'); //Insere o terceiro ponto
+            campo.value = cpf; //Atualiza o valor do campo com a máscara aplicada
+        }
+        function togglePassword() {
+            var passwordField = document.getElementById("pass");
+            if (passwordField.type === "password") {
+                passwordField.type = "pass";
+                document.getElementById("showPassword").checked = true;
+            } else {
+                passwordField.type = "password";
+                document.getElementById("showPassword").checked = false;
+            }
+        }
+    </script>
+     <style>
+        /* Fonts */
+        @import "https://fonts.googleapis.com/css?family=Quicksand";
+        *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Quicksand', sans-serif;
+        }
+        body{
+          background: #F3F4F9;
+          overflow: hidden;
+          background-image: url('/static/fundo_senha.jpg');
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+        ::selection{
+          background: rgba(26,188,156,0.3);
+        }
+        .container{
+          max-width: 440px;
+          padding: 0 20px;
+          margin: 100px auto;
+        }
+        .wrapper{
+          width: 100%;
+          background: #fff;
+          border-radius: 5px;
+          box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+        }
+        .wrapper .title{
+          height: 90px;
+          background: #4682B4;
+          border-radius: 5px 5px 0 0;
+          color: #fff;
+          font-size: 30px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .wrapper form{
+          padding: 30px 25px 25px 25px;
+        }
+        .wrapper form .row{
+          height: 45px;
+          margin-bottom: 15px;
+          position: relative;
+        }
+        .wrapper form .row input{
+          height: 100%;
+          width: 100%;
+          outline: none;
+          padding-left: 60px;
+          border-radius: 5px;
+          border: 1px solid lightgrey;
+          font-size: 16px;
+          transition: all 0.3s ease;
+        }
+        form .row input:focus{
+          border-color: #4682B4;
+          box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);
+        }
+        form .row input::placeholder{
+          color: #999;
+        }
+        .wrapper form .row i{
+          position: absolute;
+          width: 47px;
+          height: 100%;
+          color: #fff;
+          font-size: 18px;
+          background: #4682B4;
+          border: 1px solid #4682B4;
+          border-radius: 5px 0 0 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .wrapper form .pass{
+          margin: -8px 0 20px 0;
+        }
+        .wrapper form .pass a{
+          color: #4682B4;
+          font-size: 17px;
+          text-decoration: none;
+        }
+        .wrapper form .pass a:hover{
+          text-decoration: underline;
+        }
+        .wrapper form .button input{
+          color: #fff;
+          font-size: 20px;
+          font-weight: 500;
+          padding-left: 0px;
+          background: #3CB371;
+          border: 1px solid #16a085;
+          cursor: pointer;
+        }
+        form .button input:hover{
+          background: #2E8B57;
+        }
+        .wrapper form .signup-link{
+          text-align: center;
+          margin-top: 20px;
+          font-size: 17px;
+        }
+        .wrapper form .signup-link a{
+          color: #16a085;
+          text-decoration: none;
+        }
+        form .signup-link a:hover{
+          text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Alterar Senha</span></div>
+        <form id="alterar_senha" action="/alterar_senha" method="POST">
+            <div>Seja bem vindo! </div><div id="resultField"></div><br>
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input type="text" id="cpf" name="cpf" oninput="formatarCPF(cpf)" onblur="sendData()" placeholder="Digite seu CPF" required>
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="antpass" name="antpassword" placeholder="Senha Antiga" required>
+          </div>
+            <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="pass" name="password" placeholder="Nova Senha" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" title="A senha deve conter no mínimo 8 caracteres, incluindo letras, números e caracteres especiais" required>
+          </div>
+           <div class="radio-container">
+             <input type="checkbox" id="showPassword" onclick="togglePassword()">
+             <label for="showPassword">Exibir Senha</label>
+           </div>
+            <br><br>
+           <div class="row button">
+            <input type="submit" id="botaoAlterar" value="Alterar">
+          </div>
+         </form>
+      </div>
+    </div>
+<script>
+    function sendData() {
+        var inputValue = document.getElementById('cpf').value;
+        $.ajax({
+            type: 'POST',
+            url: '/verifica_nome',
+            data: JSON.stringify({ data: inputValue }),
+            contentType: 'application/json', // Define o tipo de conteúdo como JSON
+            success: function (response) {
+                document.getElementById('resultField').innerText = response.result;
+            }
+        });
+    }
+</script>
+</body>
+</html>
