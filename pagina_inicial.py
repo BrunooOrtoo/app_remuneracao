@@ -170,10 +170,11 @@ def get_embed_info():
         return json.dumps({'errorMsg': str(ex)}), 500
 
 @app.route('/favicon.ico', methods=['GET'])
-def getfavicon():
-    '''Returns path of the favicon to be rendered'''
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'img/favicon.ico', mimetype='image/vnd.microsoft.icon')
-
+def get_favicon():
+    '''Retorna o caminho do favicon a ser renderizado'''
+    response = send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    response.headers['Content-Security-Policy'] = "img-src 'self' https://brunooortoo.github.io"
+    return response
 # Página chat
 @app.route('/chatbot')
 def chatbot():
