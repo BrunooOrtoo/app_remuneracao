@@ -170,7 +170,7 @@ def get_embed_info():
         return json.dumps({'errorMsg': str(ex)}), 500
 
 # Rota para servir o favicon.ico e definir a política CSP para permitir a carga dele
-@app.route('/favicon.ico', methods=['GET'])
+#@app.route('/favicon.ico', methods=['GET'])
 #def get_favicon():
 #    '''Retorna o caminho do favicon a ser renderizado'''
 #    response = send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
