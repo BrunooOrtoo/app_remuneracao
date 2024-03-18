@@ -169,13 +169,26 @@ def get_embed_info():
     except Exception as ex:
         return json.dumps({'errorMsg': str(ex)}), 500
 
- #Rota para servir o favicon.ico e definir a política CSP para permitir a carga dele
+    # Função para adicionar CSP em todas as respostas
+
+
+def add_csp(response):
+    response.headers['Content-Security-Policy'] = "img-src 'self'"
+    return response
+
+    # Rota para fornecer o favicon.ico
+
+
 @app.route('/favicon.ico', methods=['GET'])
 def get_favicon():
     '''Retorna o caminho do favicon a ser renderizado'''
-    response = send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
-    response.headers['Content-Security-Policy'] = "img-src 'self' https://brunooortoo.github.io"
-    return response
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
+# Registro da função add_csp para ser executada após cada resposta
+@app.after_request
+def after_request(response):
+    return add_csp(response)
 
 # Página chat
 @app.route('/chatbot')
