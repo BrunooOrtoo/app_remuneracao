@@ -169,26 +169,10 @@ def get_embed_info():
     except Exception as ex:
         return json.dumps({'errorMsg': str(ex)}), 500
 
-    # Função para adicionar CSP em todas as respostas
-
-
-def add_csp(response):
-    response.headers['Content-Security-Policy'] = "img-src 'self'"
-    return response
-
-    # Rota para fornecer o favicon.ico
-
-
-@app.route('/favicon.ico', methods=['GET'])
-def get_favicon():
-    '''Retorna o caminho do favicon a ser renderizado'''
-    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-
-# Registro da função add_csp para ser executada após cada resposta
-@app.after_request
-def after_request(response):
-    return add_csp(response)
+# Rota para servir o favicon.ico do diretório raiz
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.root_path, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Página chat
 @app.route('/chatbot')
