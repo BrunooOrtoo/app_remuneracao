@@ -17,7 +17,9 @@ def select_data_key(cpf):
         else:
             return None
     except Exception as ex:
-        return render_template('erro.html', mensagem_de_erro=ex)
+        # Em vez de retornar o template HTML, registre o erro para depuração
+        print("Erro ao buscar senha no banco de dados:", ex)
+        return None
     finally:
         if cursor:
             cursor.close()
