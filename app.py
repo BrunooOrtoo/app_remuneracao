@@ -29,30 +29,36 @@ def index():
     return render_template('index.html')
 
 # Verificação do login
-@app.route('/index', methods=['GET','POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def do_login():
-    recaptcha_response = request.form['g-recaptcha-response']
-    secret_key = os.getenv('SECRET_KEY')
-    response = requests.post('https://google.com/recaptcha/api/siteverify',
-                             data={'secret': secret_key, 'response': recaptcha_response}, verify=False)
-    result = response.json()
-    if result['success']:
-        cpf = request.form['cpf']
-        senha = request.form['password']
-        # Verificar as credenciais do usuário (usar lógica simples ou integrar com o banco de dados.
-        busca_senha = select_data_key(cpf=cpf)
-        print(cpf)
-        print(senha)
-        print(busca_senha)
-        if busca_senha == senha:
-            cpf_sem_pontos = cpf.replace('.', '').replace('-', '')
-            return render_template('home_page.html',cpf=cpf_sem_pontos)
+    if request.method == 'POST':
+        recaptcha_response = request.form['g-recaptcha-response']
+        secret_key = os.getenv('SECRET_KEY')  # Certifique-se de configurar a variável de ambiente
+        response = requests.post('https://www.google.com/recaptcha/api/siteverify',
+                                 data={'secret': secret_key, 'response': recaptcha_response})
+        result = response.json()
+
+        if result['success']:
+            cpf = request.form['cpf']
+            senha = request.form['password']
+
+            # Verificar as credenciais do usuário (substitua pela sua lógica)
+            busca_senha = select_data_key(cpf=cpf)
+            print(cpf)
+            print(senha)
+            print(busca_senha)
+
+            if busca_senha == senha:
+                cpf_sem_pontos = cpf.replace('.', '').replace('-', '')
+                return render_template('home_page.html', cpf=cpf_sem_pontos)
+            else:
+                mensagem_de_erro = "Senha inválida."
+                return render_template('erro.html', mensagem_de_erro=mensagem_de_erro)
         else:
-            mensagem_de_erro = "Senha inválida."
+            mensagem_de_erro = "Falha na validação do reCAPTCHA."
             return render_template('erro.html', mensagem_de_erro=mensagem_de_erro)
     else:
-        mensagem_de_erro = "Falha na validação do reCAPTCHA."
-        return render_template('erro.html', mensagem_de_erro=mensagem_de_erro)
+        return render_template('index.html')  # Renderizar o formulário de login
 
 # Página de Cadastro
 @app.route('/cadastro')
