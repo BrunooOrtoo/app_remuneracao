@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- Definindo a política de segurança de conteúdo (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com https://www.recaptcha.net https://www.gstatic.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://brunooortoo.github.io;">
+    <!-- Recaptcha Enterprise -->
     <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
-    <meta http-equiv="Content-Security-Policy" content="...; img-src 'self' https://www.google.com;">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <title>Login</title>
     <script>
         function formatarCPF(campo){
@@ -172,7 +176,7 @@
     <form id="meuFormulario" action="/index" method="post">
         <h1>Entrar na sua conta</h1>
         <div class="form-content">
-            <label for="username">Usuário:</label>
+            <label for="cpf">Usuário:</label>
             <input type="text" name="cpf" id="cpf" oninput="formatarCPF(cpf)" placeholder="CPF" required>
             <label for="password">Senha:</label>
             <input type="password" id="password" name="password" placeholder="Senha">
