@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- Definindo a política de segurança de conteúdo (CSP) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.google.com https://www.recaptcha.net https://www.gstatic.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://brunooortoo.github.io; frame-src 'self' https://www.google.com;">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}">
     <!-- Recaptcha Enterprise -->
     <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
     <!-- Google Fonts -->
