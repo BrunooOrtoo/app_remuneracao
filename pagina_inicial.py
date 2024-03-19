@@ -172,7 +172,7 @@ def get_embed_info():
 # Rota para servir o favicon.ico do diretório raiz
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(app.root_path, 'static/favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(app.root_path, 'static/favicon.png', mimetype='image/vnd.microsoft.icon')
 
 # Página chat
 @app.route('/chatbot')
