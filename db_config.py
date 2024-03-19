@@ -1,5 +1,6 @@
+# db_config.py
+
 import pyodbc
-from flask import Flask, render_template
 from dotenv import load_dotenv
 import os
 
@@ -17,4 +18,5 @@ def get_database_connection():
         conn = pyodbc.connect(conn_str)
         return conn
     except pyodbc.Error as ex:
-        return render_template('erro.html', mensagem_de_erro=ex)
+        return None  # Retornar None em caso de erro para ser tratado no código principal
+
