@@ -5,6 +5,7 @@ publish:
     - path: /services
     - path: /static
     - path: /templates
+  files:
     - path: /app.py
     - path: /cgmanifest.json
     - path: /config.py
