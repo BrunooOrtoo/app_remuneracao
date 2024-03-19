@@ -1,0 +1,15 @@
+buildCommand: <comando de construção>
+publish:
+  directory:
+    - path: /models
+    - path: /services
+    - path: /static
+    - path: /templates
+    - path: /app.py
+    - path: /cgmanifest.json
+    - path: /config.py
+    - path: /db_config.py
+    - path: /password_generator.py
+    - path: /realiza_cadastro.py
+    - path: /send_email.py
+    - path: /utils.py
