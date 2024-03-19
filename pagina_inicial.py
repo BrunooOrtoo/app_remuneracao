@@ -169,11 +169,6 @@ def get_embed_info():
     except Exception as ex:
         return json.dumps({'errorMsg': str(ex)}), 500
 
-# Rota para servir o favicon.ico do diretório raiz
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(app.root_path, 'static/favicon.ico', mimetype='image/vnd.microsoft.icon')
-
 # Página chat
 @app.route('/chatbot')
 def chatbot():
