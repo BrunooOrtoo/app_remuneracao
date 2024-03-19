@@ -29,7 +29,7 @@ def index():
     return render_template('index.html')
 
 # Verificação do login
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index', methods=['POST'])
 def do_login():
     if request.method == 'POST':
         recaptcha_response = request.form['g-recaptcha-response']
