@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}">
+     <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <title>Login</title>
+    <script>
+        function formatarCPF(campo){
+            var cpf = campo.value.replace(/\D/g, ''); //Remove todos os caracters não numéricos
+            if (cpf.length > 11) {
+               cpf = cpf.slice(0, 11); //Limita o tamanho do CPF para 11 dígitos
+            }
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o primeiro ponto
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o segundo ponto
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1.$2'); //Insere o terceiro ponto
+            campo.value = cpf; //Atualiza o valor do campo com a máscara aplicada
+        }
+    </script>
+    <style>
+        /* Fonts */
+        @import "https://fonts.googleapis.com/css?family=Quicksand";
+
+        /* Mobile first */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* General HTML tags */
+        html {
+            //background-color: #D3D3D3;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            background-image: url('/static/fundo_login.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-weight: 700;
+            color: #1C1C1C;
+            text-align: center;
+            line-height: 1.5em;
+            margin-bottom: 1.2em;
+            margin-top: 0.2em;
+        }
+
+        a {
+            font-size: 0.98em;
+            color: SlateGray;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #4169E1;
+        }
+
+        /* Main Flexbox */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            padding: 6%;
+            margin: 0;
+        }
+
+        /* Form layout */
+        form {
+            background-color: #fff;
+            padding: 2em;
+            padding-bottom: 3em;
+            border-radius: 8px;
+            max-width: 400px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 10px 40px -14px rgba(0,0,0,0.25);
+        }
+
+        .form-content {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+
+        input {
+            color: #1C1C1C;
+            background-color: #F5F5F5;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+            border: none;
+            border-radius: 4px;
+            padding: 1em;
+            margin-bottom: 1.2em;
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .button {
+            font-weight: 600;
+            text-align: center;
+            font-size: 19px;
+            color: #fff;
+            background-color: #1E90FF;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            padding: 0.8em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 200ms ease-in-out;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .button:hover {
+            box-shadow: 0px 6px 10px rgba(0,0,0,0.3);
+            transform: translateY(-4px);
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .circle {
+            position: absolute;
+            z-index: 0;
+            background-color: #191970;
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 5;
+            height: 50px;
+            width: 50px;
+        }
+
+        .circle.animate {
+            animation: grow .5s linear;
+        }
+
+        @keyframes grow {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .signup-message {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form id="meuFormulario" action="/index" method="post">
+        <h1>Entrar na sua conta</h1>
+        <div class="form-content">
+            <label for="cpf">Usuário:</label>
+            <input type="text" name="cpf" id="cpf" oninput="formatarCPF(cpf)" placeholder="CPF" required>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" placeholder="Senha">
+        </div>
+         <div class="g-recaptcha" data-sitekey="6Lfv34ApAAAAADIcDUxIrrJubP2N3SMHZ8leYT6y"></div>
+        <button type="submit" class="button">Login</button>
+        <br>
+        <div class="signup-message">
+            <a href="{{ url_for('cadastro')}}" style="color:#0000FF;">Novo Usuário / Esqueceu a senha?</a>
+        </div>
+    </form>
+</div>
+<script>
+    function onSubmit(token) {document.querySelector('form').submit();}
+</script>
+</body>
+</html>
