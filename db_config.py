@@ -8,15 +8,18 @@ import os
 load_dotenv()
 
 def get_database_connection():
-    server = os.getenv('DB_SERVER')
-    database = os.getenv('DB_DATABASE')
-    username = os.getenv('DB_USERNAME')
-    password = os.getenv('DB_PASSWORD')
-    driver = '{ODBC Driver 17 for SQL Server}'
-    conn_str = 'DRIVER=' + driver + ';SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password
     try:
+        server = os.getenv('DB_SERVER')
+        database = os.getenv('DB_DATABASE')
+        username = os.getenv('DB_USERNAME')
+        password = os.getenv('DB_PASSWORD')
+        driver = '{ODBC Driver 17 for SQL Server}'
+        conn_str = 'DRIVER=' + driver + ';SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password
         conn = pyodbc.connect(conn_str)
         return conn
     except pyodbc.Error as ex:
-        return None  # Retornar None em caso de erro para ser tratado no código principal
+        # Em vez de retornar render_template, registre o erro para depuração
+        print("Erro ao conectar ao banco de dados:", ex)
+        return None
+
 
