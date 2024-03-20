@@ -1,6 +1,7 @@
 FROM python:3.8-slim
 
-RUN apt-get update && apt-get install -y unixodbc-dev
+# Atualize o índice de pacotes
+RUN apt-get update && apt-get install -y --no-install-recommends unixodbc-dev
 
 COPY . /app
 WORKDIR /app
