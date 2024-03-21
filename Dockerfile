@@ -1,9 +1,10 @@
 FROM python:3.8-slim
 
-# Adiciona o utilitário curl temporariamente para obter a chave do repositório Microsoft e adicionar o repositório do SQL Server
+# Instalação do utilitário curl e do pacote gnupg
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     curl \
+    gnupg \
     && rm -rf /var/lib/apt/lists/*
 
 # Adiciona a chave do repositório Microsoft
