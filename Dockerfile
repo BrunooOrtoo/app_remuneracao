@@ -1,6 +1,6 @@
 FROM python:3.8-slim
 
-# Instalação do utilitário curl e do pacote gnupg
+# Adiciona o utilitário curl e o pacote gnupg
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     curl \
@@ -19,10 +19,17 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instala o código-fonte da sua aplicação e suas dependências do Python
+# Cria e ativa um ambiente virtual Python
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Instala as dependências do Python no ambiente virtual
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Instala o código-fonte da sua aplicação
 COPY . /app
 WORKDIR /app
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Comando padrão para iniciar o servidor
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "-w", "4", "app:app"]
