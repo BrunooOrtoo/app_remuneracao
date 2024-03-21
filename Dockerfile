@@ -1,25 +1,27 @@
 FROM python:3.8-slim
 
-# Atualize o índice de pacotes e instale as dependências necessárias
+# Adiciona o utilitário curl temporariamente para obter a chave do repositório Microsoft e adicionar o repositório do SQL Server
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    unixodbc-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Instale o driver ODBC do SQL Server 17
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql17
+# Adiciona a chave do repositório Microsoft
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 
-# Copie o código-fonte da sua aplicação para o contêiner
+# Adiciona o repositório do SQL Server ao sources.list
+RUN curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+# Atualiza o índice de pacotes com os novos repositórios e instala o driver ODBC do SQL Server 17
+RUN apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y msodbcsql17 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Instala o código-fonte da sua aplicação e suas dependências do Python
 COPY . /app
-
-# Defina o diretório de trabalho como /app
 WORKDIR /app
-
-# Instale as dependências do Python
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Comando padrão para iniciar o servidor
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "-w", "4", "app:app"]
