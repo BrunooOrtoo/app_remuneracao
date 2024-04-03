@@ -111,16 +111,58 @@ def select_data_primary_key(cpf):
             conn.close()
 
 
-def insert_data_into_db(matricula, nome, cpf, email, senha, data_criacao, data_alteracao):
+def insert_data_into_db(matricula, nome, cpf, email, senha, data_criacao, data_alteracao, operacao, unidade):
     conn = None
     cursor = None
     try:
         conn = get_database_connection()
         cursor = conn.cursor()
         # Executa o INSERT na tabela tb_login
-        cursor.execute("INSERT INTO tb_login (c_matricula,c_nome,c_cpf,c_email,c_senha,c_criado,c_alterado) \
-                       VALUES (?, ?, ?, ?, ?, ?, ?)", (matricula, nome, cpf, email, senha, data_criacao, data_alteracao))
+        cursor.execute("INSERT INTO tb_login (c_matricula,c_nome,c_cpf,c_email,c_senha,c_criado,c_alterado,c_operacao,c_unidade) \
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (matricula, nome, cpf, email, senha, data_criacao, data_alteracao, operacao, unidade))
         conn.commit()
+    except Exception as ex:
+        return render_template('erro.html', mensagem_de_erro=ex)
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+def select_data_operacao(cpf):
+    conn = None
+    cursor = None
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+        # Executa o SELECT na tabela tb_login
+        cursor.execute("SELECT c_operacao FROM tb_login WHERE c_cpf = ?", (cpf,))
+        results = cursor.fetchall()
+        if results:
+            return results[0][0]
+        else:
+            return None
+    except Exception as ex:
+        return render_template('erro.html', mensagem_de_erro=ex)
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+def select_data_unidade(cpf):
+    conn = None
+    cursor = None
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+        # Executa o SELECT na tabela tb_login
+        cursor.execute("SELECT c_unidade FROM tb_login WHERE c_cpf = ?", (cpf,))
+        results = cursor.fetchall()
+        if results:
+            return results[0][0]
+        else:
+            return None
     except Exception as ex:
         return render_template('erro.html', mensagem_de_erro=ex)
     finally:

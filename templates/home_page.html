@@ -303,6 +303,8 @@
     </div>
     <div class="title">Seja bem-vindo ao portal de Consultas</div>
         <input type="hidden" id="cpf" value="{{ cpf }}">
+        <input type="hidden" id="operacao" value="{{ operacao }}">
+        <input type="hidden" id="unidade" value="{{ unidade }}">
         <section id="report-container" class="embed-container col-lg-offset-4 col-lg-7 col-md-offset-5 col-md-7 col-sm-offset-5 col-sm-7 mt-5"></section>
         <!-- Used to display report embed error messages -->
         <section class="error-container m-5"></section>
@@ -371,15 +373,32 @@
                     var filter = {
                         $schema: "http://powerbi.com/product/schema#advanced",
                         target: {
-                            table: "Historico_Alertas_VFleets",
+                            table: "Escala_RV",
+                            column: "Unidade"
+                        },
+                        operator: "In",
+                        values: [$('#unidade').val()] // Aqui estamos pegando o valor do campo oculto com id "cpf"
+                    };
+
+                    var filter2 = {
+                        $schema: "http://powerbi.com/product/schema#advanced",
+                        target: {
+                            table: "Escala_RV",
                             column: "CPF"
                         },
                         operator: "In",
-                        values: [$('#cpf').val()] // Aqui estamos pegando o valor do campo oculto com id "cpf"
+                        values: [$('#CPF').val()] // Aqui estamos pegando o valor do campo oculto com id "unidade" para a coluna Unidade
+                    };
+
+                    // Agora, combinar os filtros com o operador lógico "E"
+                    var combinedFilter = {
+                        $schema: "http://powerbi.com/product/schema#advanced",
+                        logicalOperator: "And",
+                        conditions: [filter, filter2]
                     };
 
                     // Add filter to reportLoadConfig
-                    reportLoadConfig.filters = [filter];
+                    reportLoadConfig.filters = [combinedFilter];
 
                     // Embed Power BI report when Access token and Embed URL are available
                     var report = powerbi.embed(reportContainer, reportLoadConfig);

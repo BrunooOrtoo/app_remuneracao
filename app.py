@@ -3,7 +3,7 @@ import requests
 import urllib3
 from dotenv import load_dotenv
 from send_email import send_email
-from realiza_cadastro import insert_data_into_db, select_data_primary_key, select_data_email, update_data_password, select_data_nome, select_data_key
+from realiza_cadastro import insert_data_into_db, select_data_primary_key, select_data_email, update_data_password, select_data_nome, select_data_key, select_data_operacao,select_data_unidade
 from datetime import datetime
 from password_generator import generate_random_password  # Importa a função para geração da senha aleatória
 from validate_docbr import CPF
@@ -44,13 +44,12 @@ def do_login():
 
             # Verificar as credenciais do usuário (substitua pela sua lógica)
             busca_senha = select_data_key(cpf=cpf)
-            print(cpf)
-            print(senha)
-            print(busca_senha)
+            operacao = select_data_operacao(cpf=cpf)
+            unidade = select_data_unidade(cpf=cpf)
 
             if busca_senha == senha:
                 cpf_sem_pontos = cpf.replace('.', '').replace('-', '')
-                return render_template('home_page.html', cpf=cpf_sem_pontos)
+                return render_template('home_page.html', cpf=cpf_sem_pontos, operacao=operacao, unidade=unidade)
             else:
                 mensagem_de_erro = "Senha inválida."
                 return render_template('erro.html', mensagem_de_erro=mensagem_de_erro)
@@ -75,6 +74,8 @@ def do_cadastro():
     senha = request.form['password']
     data_cadastro = datetime.now()
     data_alteracao = datetime.now()
+    operacao = request.form['campo_selecao']
+    unidade = request.form['campo_selecao_unidade']
     # Procura se o CPF está cadastrado
     search_primary_key = select_data_primary_key(cpf)
 
@@ -87,7 +88,7 @@ def do_cadastro():
         else:
             # Chama a função para inserir no banco de dados
             try:
-                success = insert_data_into_db(matricula, nome, cpf, email, senha, data_cadastro, data_alteracao)
+                success = insert_data_into_db(matricula, nome, cpf, email, senha, data_cadastro, data_alteracao, operacao, unidade)
                 return redirect(url_for('procedimento_concluido'))
             except Exception as ex:
                 return render_template('erro.html', mensagem_de_erro=ex)

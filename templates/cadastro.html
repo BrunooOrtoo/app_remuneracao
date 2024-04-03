@@ -97,10 +97,28 @@
             width: 100%;
         }
 
+        form select {
+            display: block;
+            margin-bottom: 20px;
+            border: 1px solid #E5E9F5;
+            background-color: #F6F7FA;
+            padding: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            width: calc(110% - 0px); /* Ajuste para incluir o padding */
+            font-size: 16px; /* Mesmo tamanho de fonte */
+            font-family: 'Quicksand', sans-serif; /* Mesma fonte */
+        }
+
+        form select option {
+            color: #1C1C1C;
+            font-size: 16px; /* Tamanho de fonte igual ao do select */
+            letter-spacing: 1.2px;
+        }
+
         #form-controls {
             margin-bottom: 20px;
         }
-
 
         h3 {
             color: #1C1C1C;
@@ -250,6 +268,34 @@
               <label for="cpf">CPF</label>
               <input type="text" name="cpf" id="cpf" oninput="formatarCPF(cpf)" placeholder="CPF" required>
 
+              <label for="campo_selecao">Operação:</label>
+                <select name="campo_selecao" id="campo_selecao" required>
+                    <option value="" disabled selected>Selecione uma opção</option>
+                    <option value="Cana Picada">Cana Picada</option>
+                    <option value="Vinhaça">Vinhaça</option>
+                    <option value="Resíduos">Resíduos</option>
+                    <option value="Açucar">Açúcar</option>
+                    <option value="Manutenção">Manutenção</option>
+                    <option value="Monitoramento">Monitoramento</option>
+                    <option value="Instrutor">Instrutor</option>
+                    <option value="Líder">Líder</option>
+                    <option value="Coordenador">Coordenador</option>
+                </select>
+
+              <label for="campo_selecao">Unidade:</label>
+                <select name="campo_selecao_unidade" id="campo_selecao_unidade" required>
+                    <option value="" disabled selected>Selecione uma opção</option>
+                    <option value="Araraquara">Araraquara</option>
+                    <option value="Bonfim">Bonfim</option>
+                    <option value="Costa Pinto">Costa Pinto</option>
+                    <option value="Leme">Leme</option>
+                    <option value="Mandú">Mandú</option>
+                    <option value="Rafard">Rafard</option>
+                    <option value="São Francisco">São Francisco</option>
+                    <option value="Vale do Rosário">Vale do Rosário</option>
+                    <option value="Zambianco">Zambianco</option>
+                </select>
+
               <label for="email">Email</label>
               <input type="email" name="email" id="email" placeholder="Email" required>
 
@@ -296,7 +342,6 @@
 
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script type="text/JavaScript" src="./my-script.js"></script>
-
 </body>
 </html>
 
