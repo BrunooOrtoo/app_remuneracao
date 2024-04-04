@@ -49,6 +49,7 @@ def do_login():
 
             if busca_senha == senha:
                 cpf_sem_pontos = cpf.replace('.', '').replace('-', '')
+                print(cpf_sem_pontos)
                 return render_template('home_page.html', cpf=cpf_sem_pontos, operacao=operacao, unidade=unidade)
             else:
                 mensagem_de_erro = "Senha inválida."

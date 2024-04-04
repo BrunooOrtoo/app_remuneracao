@@ -374,31 +374,14 @@
                         $schema: "http://powerbi.com/product/schema#advanced",
                         target: {
                             table: "Escala_RV",
-                            column: "Unidade"
-                        },
-                        operator: "In",
-                        values: [$('#unidade').val()] // Aqui estamos pegando o valor do campo oculto com id "cpf"
-                    };
-
-                    var filter2 = {
-                        $schema: "http://powerbi.com/product/schema#advanced",
-                        target: {
-                            table: "Escala_RV",
                             column: "CPF"
                         },
                         operator: "In",
-                        values: [$('#CPF').val()] // Aqui estamos pegando o valor do campo oculto com id "unidade" para a coluna Unidade
-                    };
-
-                    // Agora, combinar os filtros com o operador lógico "E"
-                    var combinedFilter = {
-                        $schema: "http://powerbi.com/product/schema#advanced",
-                        logicalOperator: "And",
-                        conditions: [filter, filter2]
+                        values: [$('#cpf').val()] // Aqui estamos pegando o valor do campo oculto com id "cpf"
                     };
 
                     // Add filter to reportLoadConfig
-                    reportLoadConfig.filters = [combinedFilter];
+                    reportLoadConfig.filters = [filter];
 
                     // Embed Power BI report when Access token and Embed URL are available
                     var report = powerbi.embed(reportContainer, reportLoadConfig);
