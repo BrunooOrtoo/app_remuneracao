@@ -165,17 +165,29 @@ app.config.from_object('config.BaseConfig')
 def home_page():
     return render_template('home_page.html')
 
+from flask import request, jsonify
+
+# No código existente...
+
 @app.route('/getembedinfo', methods=['GET'])
 def get_embed_info():
     '''Returns report embed configuration'''
     config_result = Utils.check_config(app)
     if config_result is not None:
-        return json.dumps({'errorMsg': config_result}), 500
+        return jsonify({'errorMsg': config_result}), 500
     try:
+        # Obtenha os parâmetros de incorporação ajustados para o layout móvel
         embed_info = PbiEmbedService().get_embed_params_for_single_report(app.config['WORKSPACE_ID'], app.config['REPORT_ID'])
-        return embed_info
+
+        # Modifique o embed_info para ajustar para layout móvel
+        embed_info = json.loads(embed_info)
+        embed_info['config'] = embed_info.get('config', '')
+        embed_info['config'] += '&config=embedToolbarEnabled=true&navContentPaneEnabled=false&toolbarEnabled=false&mobile=true'
+
+        return jsonify(embed_info)
     except Exception as ex:
-        return json.dumps({'errorMsg': str(ex)}), 500
+        return jsonify({'errorMsg': str(ex)}), 500
+
 
 # Página chat
 @app.route('/chatbot')
