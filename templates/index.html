@@ -175,9 +175,31 @@
                 background-size: auto; /* Adjust background size for mobile */
             }
         }
+
+        .background-rectangle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10%;
+            background-color: white; /* Cor do retângulo */
+            z-index: -1; /* Coloca o retângulo atrás do conteúdo */
+        }
+
+        .logo {
+            position: absolute;
+            top: 5.4%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 150px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            z-index: 1; /* Certifique-se de que a imagem fique acima do retângulo */
+
     </style>
 </head>
 <body>
+<div class="background-rectangle"></div>
+<img class="logo" src="{{ url_for('static', filename='Andrade.png') }}" alt="Logo">
 <h1>Portal Consulta Remuneração</h1>
 <div class="container">
     <form id="meuFormulario" action="/index" method="post">
