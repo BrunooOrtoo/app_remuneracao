@@ -48,8 +48,11 @@ def do_login():
             unidade = select_data_unidade(cpf=cpf)
 
             if busca_senha == senha:
+                def remover_zeros_esquerda(cpf):
+                    return cpf.lstrip('0')
                 cpf_sem_pontos = cpf.replace('.', '').replace('-', '')
-                return render_template('home_page.html', cpf=cpf_sem_pontos, operacao=operacao, unidade=unidade)
+                cpf_sem_zeros = remover_zeros_esquerda(cpf_sem_pontos)
+                return render_template('home_page.html', cpf=cpf_sem_zeros, operacao=operacao, unidade=unidade)
             else:
                 mensagem_de_erro = "Senha inválida."
                 return render_template('erro.html', mensagem_de_erro=mensagem_de_erro)
