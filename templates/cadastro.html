@@ -38,14 +38,11 @@
         }
 
         function formatarCPF(campo){
-            var cpf = campo.value.replace(/\D/g, ''); //Remove todos os caracters não numéricos
-            if (cpf.length > 11) {
-               cpf = cpf.slice(0, 11); //Limita o tamanho do CPF para 11 dígitos
-            }
-            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o primeiro ponto
-            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); //Insere o segundo ponto
-            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1.$2'); //Insere o terceiro ponto
-            campo.value = cpf; //Atualiza o valor do campo com a máscara aplicada
+            var cpf = campo.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+            cpf = cpf.padStart(11, '0'); // Adiciona zeros à esquerda se o CPF tiver menos de 11 dígitos
+
+            var cpfFormatado = cpf.slice(0, 3) + '.' + cpf.slice(3, 6) + '.' + cpf.slice(6, 9) + '.' + cpf.slice(9, 11);
+            campo.value = cpfFormatado; // Atualiza o valor do campo com a máscara aplicada
         }
     </script>
     <style>
@@ -266,7 +263,7 @@
               <input type="text" name="nome" id="nome" placeholder="Nome" required>
 
               <label for="cpf">CPF</label>
-              <input type="text" name="cpf" id="cpf" oninput="formatarCPF(cpf)" placeholder="CPF" required>
+              <input type="text" name="cpf" id="cpf" onblur="formatarCPF(this)" placeholder="CPF" required>
 
               <label for="campo_selecao">Operação:</label>
                 <select name="campo_selecao" id="campo_selecao" required>
